@@ -1,4 +1,7 @@
-/// Useful functions 
+/// Useful functions  
+
+let computerScore = 0;
+let humanScore = 0;
 
 function getComputerChoice() {
     const RPSIssues = ["rock", "paper", "scissors"];
@@ -7,63 +10,69 @@ function getComputerChoice() {
     return computerMove
 };
 
-function getHumanChoice() {
-    const humanChoice = prompt("Enter your move (rock, paper, scissors)").toLowerCase();
-    if (humanChoice == "rock" | humanChoice == "paper" | humanChoice == "scissors") {
-        return humanChoice
-    } else {
-        console.log("Please enter a valid value (Rock, Paper, Scissors)");
-    }
+function checkWinner(humanScore, computerScore) {
+    if (humanScore == 5) {
+        const score_container = document.querySelector(".score_container");
+        const winnerTitle = document.createElement("h1");
+        winnerTitle.textContent = "YOU WIN ! Congratulations";
+        score_container.appendChild(winnerTitle);
+
+    } else if (computerScore == 5) {
+        const score_container = document.querySelector(".score_container");
+        const winnerTitle = document.createElement("h1");
+        winnerTitle.textContent = "YOU LOST ! Too much bad luck";
+        score_container.appendChild(winnerTitle);
+    };
 };
 
+
 function playRound(humanChoice, computerChoice) {
+    let text2display = ""
     if (humanChoice == "rock") {
         if (computerChoice == "scissors") {
-            console.log("You won ! Rock vs scissors !");
+            text2display = "You won ! Rock vs scissors !";
             humanScore += 1;
         } else if (computerChoice == "paper") {
-            console.log("You lost ! Rock vs paper !");
+            text2display = "You lost ! Rock vs paper !";
             computerScore += 1;
         } else {
-            console.log("Rock vs rock - it's a draw !");
+            text2display = "Rock vs rock - it's a draw !";
         }
     } else if (humanChoice == "paper") {
         if (computerChoice == "rock") {
-            console.log("You won ! Paper vs rock !");
+            text2display = "You won ! Paper vs rock !"
             humanScore += 1;
         } else if (computerChoice == "scissors") {
-            console.log("You lost ! Paper vs scissors !");
+            text2display = "You lost ! Paper vs scissors !";
             computerScore += 1;
         } else {
-            console.log("Paper vs paper - it's a draw !");
+            text2display = "Paper vs paper - it's a draw !";
         }
     } else if (humanChoice == "scissors") {
         if (computerChoice == "paper") {
-            console.log("You won ! Scissors vs paper !");
+            text2display = "You won ! Scissors vs paper !";
             humanScore += 1;
         } else if (computerChoice == "rock") {
-            console.log("You lost ! Scissors vs rock !");
+            text2display = "You lost ! Scissors vs rock !";
             computerScore += 1;
         } else {
-            console.log("Scissors vs scissors - it's a draw !");
+            text2display = "Scissors vs scissors - it's a draw !";
         }
     } else {
-        console.log("You played an unvalid hand");
+        text2display = "You played an unvalid hand";
     };
-    console.log(`You ${humanScore} - Computer ${computerScore}`);
+    let textForScores = `You ${humanScore} - Computer ${computerScore}`;
+
+    const score_container = document.querySelector(".score_container");
+
+    const textRound = document.querySelector("#textRound");
+    textRound.textContent = text2display;
+
+    const textScore = document.querySelector("#textScore");
+    textScore.textContent = textForScores;
+
+    checkWinner(humanScore, computerScore);
 };
-
-/*
-function playGame() {
-    let humanScore = 0;
-    let computerScore = 0;
-
-    for (let i = 0; i < 5; i++) {
-        let computerChoice = getComputerChoice();
-        let humanChoice = getHumanChoice();
-        playRound(humanChoice, computerChoice);
-    }
-};*/
 
 /// DOM manipulation
 
@@ -71,13 +80,9 @@ const playMoveButtons = document.querySelectorAll(".playmove");
 console.log(playMoveButtons);
 playMoveButtons.forEach((playMoveButton) => {
     playMoveButton.addEventListener("click", () => {
-        console.log(playMoveButton.id);
+        let computerChoice = getComputerChoice();
+        let humanChoice = playMoveButton.id;
+        playRound(humanChoice, computerChoice);
         return playMoveButton.id;
     });
 });
-
-const score_container = document.querySelector(".score_container");
-
-
-/*playGame();
-*/
